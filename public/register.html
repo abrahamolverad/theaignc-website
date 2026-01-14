@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | The AIgnc</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+    }
+
+    .auth-visual {
+      background: var(--gradient-primary);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--spacing-3xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 30%, rgba(193, 127, 89, 0.2) 0%, transparent 60%);
+    }
+
+    .auth-visual-content {
+      position: relative;
+      text-align: center;
+      color: white;
+      max-width: 400px;
+    }
+
+    .auth-visual h1 {
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .auth-visual p {
+      opacity: 0.8;
+      font-size: 1.1rem;
+    }
+
+    .pricing-preview {
+      margin-top: var(--spacing-2xl);
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-xl);
+      backdrop-filter: blur(10px);
+    }
+
+    .pricing-preview h3 {
+      color: white;
+      font-size: 1rem;
+      margin-bottom: var(--spacing-md);
+      opacity: 0.8;
+    }
+
+    .plan-cards {
+      display: flex;
+      gap: var(--spacing-sm);
+    }
+
+    .plan-mini {
+      flex: 1;
+      background: rgba(255,255,255,0.1);
+      padding: var(--spacing-md);
+      border-radius: var(--radius-md);
+      text-align: center;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+
+    .plan-mini:hover,
+    .plan-mini.selected {
+      border-color: var(--color-copper);
+      background: rgba(255,255,255,0.15);
+    }
+
+    .plan-mini .plan-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .plan-mini .plan-price {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-copper);
+      margin: 4px 0;
+    }
+
+    .auth-form-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--spacing-2xl);
+      background: var(--color-white);
+      overflow-y: auto;
+    }
+
+    .auth-form-container {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .auth-logo {
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .auth-logo a {
+      font-family: var(--font-heading);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-navy);
+    }
+
+    .auth-logo .logo-accent {
+      color: var(--color-copper);
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .auth-header h2 {
+      font-size: 1.75rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .auth-header p {
+      color: var(--color-slate);
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+    }
+
+    .form-group label {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-gray);
+    }
+
+    .input-wrapper input,
+    .input-wrapper select {
+      width: 100%;
+      padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 48px;
+      border: 2px solid var(--color-light);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      transition: var(--transition-base);
+      background: white;
+    }
+
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+      outline: none;
+      border-color: var(--color-copper);
+    }
+
+    .password-strength {
+      display: flex;
+      gap: 4px;
+      margin-top: var(--spacing-xs);
+    }
+
+    .strength-bar {
+      flex: 1;
+      height: 4px;
+      background: var(--color-light);
+      border-radius: 2px;
+      transition: var(--transition-base);
+    }
+
+    .strength-bar.weak { background: #EF4444; }
+    .strength-bar.medium { background: #F59E0B; }
+    .strength-bar.strong { background: #10B981; }
+
+    .terms-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+      font-size: 0.9rem;
+      color: var(--color-slate);
+    }
+
+    .terms-checkbox input {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-copper);
+    }
+
+    .terms-checkbox a {
+      color: var(--color-copper);
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: var(--spacing-xl);
+      color: var(--color-slate);
+    }
+
+    .auth-footer a {
+      color: var(--color-copper);
+      font-weight: 600;
+    }
+
+    .error-message,
+    .success-message {
+      padding: var(--spacing-md);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .error-message {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    .success-message {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+
+    .error-message.show,
+    .success-message.show {
+      display: block;
+    }
+
+    @media (max-width: 968px) {
+      .auth-page {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-visual {
+        display: none;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-page">
+    <!-- Visual Side -->
+    <div class="auth-visual">
+      <div class="auth-visual-content">
+        <h1>Start Automating</h1>
+        <p>Join businesses worldwide transforming their operations with AI</p>
+
+        <div class="pricing-preview">
+          <h3>Select your plan</h3>
+          <div class="plan-cards">
+            <div class="plan-mini" data-plan="starter">
+              <div class="plan-name">Starter</div>
+              <div class="plan-price">$2,500</div>
+              <div class="plan-period">/month</div>
+            </div>
+            <div class="plan-mini selected" data-plan="growth">
+              <div class="plan-name">Growth</div>
+              <div class="plan-price">$5,000</div>
+              <div class="plan-period">/month</div>
+            </div>
+            <div class="plan-mini" data-plan="scale">
+              <div class="plan-name">Scale</div>
+              <div class="plan-price">$10,000</div>
+              <div class="plan-period">/month</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Side -->
+    <div class="auth-form-section">
+      <div class="auth-form-container">
+        <div class="auth-logo">
+          <a href="/">THE AI<span class="logo-accent">GNC</span></a>
+        </div>
+
+        <div class="auth-header">
+          <h2>Create Your Account</h2>
+          <p>Start your 14-day free trial. No credit card required.</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form class="auth-form" id="registerForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name *</label>
+              <div class="input-wrapper">
+                <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name *</label>
+              <div class="input-wrapper">
+                <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Work Email *</label>
+            <div class="input-wrapper">
+              <input type="email" id="email" name="email" placeholder="john@company.com" required>
+              <i class="fas fa-envelope"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="organizationName">Company/Organization *</label>
+            <div class="input-wrapper">
+              <input type="text" id="organizationName" name="organizationName" placeholder="Your Company Name" required>
+              <i class="fas fa-building"></i>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <div class="input-wrapper">
+                <input type="tel" id="phone" name="phone" placeholder="+1 234 567 890">
+                <i class="fas fa-phone"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="industry">Industry</label>
+              <div class="input-wrapper">
+                <select id="industry" name="industry">
+                  <option value="">Select industry</option>
+                  <option value="fitness">Fitness & Wellness</option>
+                  <option value="healthcare">Healthcare</option>
+                  <option value="retail">Retail & E-commerce</option>
+                  <option value="finance">Finance & Insurance</option>
+                  <option value="manufacturing">Manufacturing</option>
+                  <option value="technology">Technology</option>
+                  <option value="professional_services">Professional Services</option>
+                  <option value="other">Other</option>
+                </select>
+                <i class="fas fa-industry"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password *</label>
+            <div class="input-wrapper">
+              <input type="password" id="password" name="password" placeholder="Min. 8 characters" required minlength="8">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="password-strength">
+              <div class="strength-bar" id="str1"></div>
+              <div class="strength-bar" id="str2"></div>
+              <div class="strength-bar" id="str3"></div>
+              <div class="strength-bar" id="str4"></div>
+            </div>
+          </div>
+
+          <input type="hidden" id="selectedPlan" name="plan" value="growth">
+
+          <label class="terms-checkbox">
+            <input type="checkbox" required>
+            <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+          </label>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+            <span>Create Account</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="auth-footer">
+          <p>Already have an account? <a href="/login">Sign in</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Plan selection
+    const planCards = document.querySelectorAll('.plan-mini');
+    const selectedPlanInput = document.getElementById('selectedPlan');
+
+    // Check URL for plan parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const planFromUrl = urlParams.get('plan');
+    if (planFromUrl) {
+      planCards.forEach(card => {
+        card.classList.remove('selected');
+        if (card.dataset.plan === planFromUrl) {
+          card.classList.add('selected');
+          selectedPlanInput.value = planFromUrl;
+        }
+      });
+    }
+
+    planCards.forEach(card => {
+      card.addEventListener('click', () => {
+        planCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedPlanInput.value = card.dataset.plan;
+      });
+    });
+
+    // Password strength
+    const passwordInput = document.getElementById('password');
+    const strengthBars = [
+      document.getElementById('str1'),
+      document.getElementById('str2'),
+      document.getElementById('str3'),
+      document.getElementById('str4')
+    ];
+
+    passwordInput.addEventListener('input', () => {
+      const password = passwordInput.value;
+      let strength = 0;
+
+      if (password.length >= 8) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+      strengthBars.forEach((bar, index) => {
+        bar.className = 'strength-bar';
+        if (index < strength) {
+          if (strength <= 1) bar.classList.add('weak');
+          else if (strength <= 2) bar.classList.add('medium');
+          else bar.classList.add('strong');
+        }
+      });
+    });
+
+    // Form submission
+    const registerForm = document.getElementById('registerForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        organizationName: document.getElementById('organizationName').value,
+        phone: document.getElementById('phone').value,
+        industry: document.getElementById('industry').value,
+        password: document.getElementById('password').value
+      };
+
+      const submitBtn = registerForm.querySelector('button[type="submit"]');
+
+      // Hide messages
+      errorMessage.classList.remove('show');
+      successMessage.classList.remove('show');
+
+      // Show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px;margin:0 auto;"></div>';
+
+      try {
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          successMessage.textContent = 'Account created successfully! Redirecting...';
+          successMessage.classList.add('show');
+
+          // Store token
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+
+          // Redirect after short delay
+          setTimeout(() => {
+            window.location.href = '/dashboard';
+          }, 1500);
+        } else {
+          errorMessage.textContent = data.message;
+          errorMessage.classList.add('show');
+        }
+      } catch (err) {
+        errorMessage.textContent = 'Connection error. Please try again.';
+        errorMessage.classList.add('show');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Create Account</span><i class="fas fa-arrow-right"></i>';
+      }
+    });
+  </script>
+</body>
+</html>

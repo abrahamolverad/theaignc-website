@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | The AIgnc</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .auth-visual {
+      background: var(--gradient-primary);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--spacing-3xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(0, 180, 216, 0.2) 0%, transparent 60%);
+    }
+
+    .auth-visual-content {
+      position: relative;
+      text-align: center;
+      color: white;
+      max-width: 400px;
+    }
+
+    .auth-visual h1 {
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .auth-visual p {
+      opacity: 0.8;
+      font-size: 1.1rem;
+    }
+
+    .auth-features {
+      margin-top: var(--spacing-2xl);
+      text-align: left;
+    }
+
+    .auth-feature {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      padding: var(--spacing-md) 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .auth-feature i {
+      color: var(--color-copper);
+      font-size: 1.25rem;
+      width: 30px;
+    }
+
+    .auth-form-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--spacing-3xl);
+      background: var(--color-white);
+    }
+
+    .auth-form-container {
+      max-width: 400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .auth-logo {
+      text-align: center;
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .auth-logo a {
+      font-family: var(--font-heading);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-navy);
+    }
+
+    .auth-logo .logo-accent {
+      color: var(--color-copper);
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .auth-header h2 {
+      font-size: 1.75rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .auth-header p {
+      color: var(--color-slate);
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+    }
+
+    .form-group label {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-gray);
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 48px;
+      border: 2px solid var(--color-light);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      transition: var(--transition-base);
+    }
+
+    .input-wrapper input:focus {
+      outline: none;
+      border-color: var(--color-copper);
+    }
+
+    .input-wrapper input:focus + i,
+    .input-wrapper input:not(:placeholder-shown) + i {
+      color: var(--color-copper);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-gray);
+      cursor: pointer;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      cursor: pointer;
+    }
+
+    .remember-me input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-copper);
+    }
+
+    .forgot-link {
+      color: var(--color-copper);
+      font-weight: 500;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
+      color: var(--color-gray);
+      font-size: 0.85rem;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-light);
+    }
+
+    .social-login {
+      display: flex;
+      gap: var(--spacing-md);
+    }
+
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-md);
+      border: 2px solid var(--color-light);
+      border-radius: var(--radius-md);
+      font-weight: 500;
+      transition: var(--transition-base);
+    }
+
+    .social-btn:hover {
+      border-color: var(--color-navy);
+      background: var(--color-lighter);
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: var(--spacing-xl);
+      color: var(--color-slate);
+    }
+
+    .auth-footer a {
+      color: var(--color-copper);
+      font-weight: 600;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      background: #FEE2E2;
+      color: #991B1B;
+      padding: var(--spacing-md);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    @media (max-width: 968px) {
+      .auth-page {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-visual {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-page">
+    <!-- Visual Side -->
+    <div class="auth-visual">
+      <div class="auth-visual-content">
+        <h1>Welcome Back</h1>
+        <p>Access your automation dashboard and manage your workflows</p>
+        <div class="auth-features">
+          <div class="auth-feature">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Real-time automation monitoring</span>
+          </div>
+          <div class="auth-feature">
+            <i class="fas fa-chart-line"></i>
+            <span>Performance analytics & insights</span>
+          </div>
+          <div class="auth-feature">
+            <i class="fas fa-cogs"></i>
+            <span>Manage your workflow settings</span>
+          </div>
+          <div class="auth-feature">
+            <i class="fas fa-headset"></i>
+            <span>Priority support access</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Side -->
+    <div class="auth-form-section">
+      <div class="auth-form-container">
+        <div class="auth-logo">
+          <a href="/">THE AI<span class="logo-accent">GNC</span></a>
+        </div>
+
+        <div class="auth-header">
+          <h2>Sign In</h2>
+          <p>Enter your credentials to access your account</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <form class="auth-form" id="loginForm">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <input type="email" id="email" name="email" placeholder="you@company.com" required>
+              <i class="fas fa-envelope"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="password" name="password" placeholder="Enter your password" required>
+              <i class="fas fa-lock"></i>
+              <span class="password-toggle" id="passwordToggle">
+                <i class="fas fa-eye"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="remember-me">
+              <input type="checkbox" name="remember">
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+            <span>Sign In</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="auth-divider">or continue with</div>
+
+        <div class="social-login">
+          <button class="social-btn">
+            <i class="fab fa-google"></i>
+            <span>Google</span>
+          </button>
+          <button class="social-btn">
+            <i class="fab fa-microsoft"></i>
+            <span>Microsoft</span>
+          </button>
+        </div>
+
+        <div class="auth-footer">
+          <p>Don't have an account? <a href="/register">Create one</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Password toggle
+    const passwordToggle = document.getElementById('passwordToggle');
+    const passwordInput = document.getElementById('password');
+
+    passwordToggle.addEventListener('click', () => {
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+      passwordToggle.innerHTML = type === 'password'
+        ? '<i class="fas fa-eye"></i>'
+        : '<i class="fas fa-eye-slash"></i>';
+    });
+
+    // Form submission
+    const loginForm = document.getElementById('loginForm');
+    const errorMessage = document.getElementById('errorMessage');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const submitBtn = loginForm.querySelector('button[type="submit"]');
+
+      // Show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px;margin:0 auto;"></div>';
+
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Store token
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+
+          // Redirect to dashboard
+          window.location.href = '/dashboard';
+        } else {
+          errorMessage.textContent = data.message;
+          errorMessage.classList.add('show');
+        }
+      } catch (err) {
+        errorMessage.textContent = 'Connection error. Please try again.';
+        errorMessage.classList.add('show');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Sign In</span><i class="fas fa-arrow-right"></i>';
+      }
+    });
+  </script>
+</body>
+</html>
