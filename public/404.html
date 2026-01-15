@@ -4,30 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Page Not Found | The AIgnc</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/theme.js"></script>
   <style>
-    :root {
-      --color-navy: #1A365D;
-      --color-copper: #C17F59;
-      --color-white: #FFFFFF;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, var(--color-navy) 0%, #0F1F38 100%);
+      background: var(--gradient-primary);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
+    }
+
+    [data-theme="dark"] body {
+      background: linear-gradient(135deg, var(--color-bg-primary) 0%, #1a1a18 100%);
     }
 
     .container {
@@ -39,9 +34,10 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 8rem;
       font-weight: 800;
-      background: linear-gradient(135deg, var(--color-copper), #00B4D8);
+      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
       line-height: 1;
       margin-bottom: 1rem;
     }
@@ -49,6 +45,11 @@
     h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
+      color: white;
+    }
+
+    [data-theme="dark"] h1 {
+      color: var(--color-text-primary);
     }
 
     p {
@@ -60,12 +61,16 @@
       margin-right: auto;
     }
 
-    .btn {
+    [data-theme="dark"] p {
+      color: var(--color-text-secondary);
+    }
+
+    .btn-error {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       padding: 1rem 2rem;
-      background: var(--color-copper);
+      background: var(--color-accent);
       color: white;
       text-decoration: none;
       border-radius: 0.5rem;
@@ -73,9 +78,10 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .btn:hover {
+    .btn-error:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(193, 127, 89, 0.3);
+      box-shadow: 0 10px 30px rgba(217, 119, 87, 0.3);
+      background: var(--color-accent-hover);
     }
 
     .links {
@@ -92,17 +98,44 @@
       transition: color 0.3s ease;
     }
 
+    [data-theme="dark"] .links a {
+      color: var(--color-text-muted);
+    }
+
     .links a:hover {
-      color: var(--color-copper);
+      color: var(--color-accent);
+    }
+
+    .theme-toggle-wrapper {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+    }
+
+    .theme-toggle-wrapper .theme-toggle {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    [data-theme="dark"] .theme-toggle-wrapper .theme-toggle {
+      background: var(--color-bg-secondary);
+      border-color: var(--color-border);
     }
   </style>
 </head>
 <body>
+  <div class="theme-toggle-wrapper">
+    <button class="theme-toggle" aria-label="Toggle dark mode">
+      <i class="fas fa-moon"></i>
+      <i class="fas fa-sun"></i>
+    </button>
+  </div>
+
   <div class="container">
     <div class="error-code">404</div>
     <h1>Page Not Found</h1>
     <p>Oops! The page you're looking for doesn't exist or has been moved.</p>
-    <a href="/" class="btn">
+    <a href="/" class="btn-error">
       <i class="fas fa-home"></i>
       <span>Back to Home</span>
     </a>
