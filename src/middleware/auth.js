@@ -85,5 +85,60 @@ const requireRole = (...roles) => {
   };
 };
 
+/**
+ * Require an active subscription of specific plans
+ */
+const requireSubscription = (...plans) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required.'
+      });
+    }
+
+    const { subscription } = req.user;
+
+    if (subscription.status !== 'active') {
+      return res.status(403).json({
+        success: false,
+        message: 'An active subscription is required to access this resource.'
+      });
+    }
+
+    if (plans.length > 0 && !plans.includes(subscription.plan)) {
+      return res.status(403).json({
+        success: false,
+        message: `This resource requires one of these plans: ${plans.join(', ')}`
+      });
+    }
+
+    next();
+  };
+};
+
+/**
+ * Require email verification
+ */
+const requireVerified = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({
+      success: false,
+      message: 'Authentication required.'
+    });
+  }
+
+  if (!req.user.isVerified) {
+    return res.status(403).json({
+      success: false,
+      message: 'Email verification is required. Please check your inbox.'
+    });
+  }
+
+  next();
+};
+
 module.exports = auth;
 module.exports.requireRole = requireRole;
+module.exports.requireSubscription = requireSubscription;
+module.exports.requireVerified = requireVerified;

@@ -1,12 +1,19 @@
 /**
  * User Model - The AIgnc
- * Supports multi-tenant architecture for different client organizations
+ * Supports multi-tenant architecture, OAuth, Stripe, and security features
  */
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
+  // AIGNC ID
+  aigncId: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+
   // Basic Info
   email: {
     type: String,
@@ -18,7 +25,6 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
     minlength: [8, 'Password must be at least 8 characters'],
     select: false
   },
@@ -43,6 +49,27 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default: null
+  },
+
+  // OAuth Providers
+  providers: [{
+    provider: {
+      type: String,
+      enum: ['google', 'apple', 'github', 'microsoft', 'linkedin']
+    },
+    providerId: String,
+    email: String,
+    avatar: String
+  }],
+
+  // Stripe
+  stripeCustomerId: {
+    type: String,
+    sparse: true
+  },
+  stripeSubscriptionId: {
+    type: String,
+    sparse: true
   },
 
   // Organization (Multi-tenant support)
@@ -82,7 +109,7 @@ const userSchema = new mongoose.Schema({
   subscription: {
     plan: {
       type: String,
-      enum: ['starter', 'growth', 'scale', 'enterprise', 'trial'],
+      enum: ['starter', 'professional', 'enterprise', 'growth', 'scale', 'trial'],
       default: 'trial'
     },
     status: {
@@ -111,6 +138,27 @@ const userSchema = new mongoose.Schema({
   verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
+
+  // Security
+  failedLoginAttempts: {
+    type: Number,
+    default: 0
+  },
+  lockUntil: {
+    type: Date
+  },
+  twoFactorEnabled: {
+    type: Boolean,
+    default: false
+  },
+
+  // Refresh Tokens
+  refreshTokens: [{
+    token: String,
+    device: String,
+    createdAt: { type: Date, default: Date.now },
+    expiresAt: Date
+  }],
 
   // Tracking
   lastLogin: {
@@ -148,18 +196,25 @@ const userSchema = new mongoose.Schema({
 
 // Indexes
 userSchema.index({ email: 1 });
+userSchema.index({ aigncId: 1 });
 userSchema.index({ 'organization.slug': 1 });
 userSchema.index({ 'organization.name': 1 });
+userSchema.index({ stripeCustomerId: 1 });
 
-// Pre-save: Hash password
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
+// Virtual: isLocked
+userSchema.virtual('isLocked').get(function () {
+  return !!(this.lockUntil && this.lockUntil > Date.now());
+});
 
-  const salt = await bcrypt.genSalt(12);
-  this.password = await bcrypt.hash(this.password, salt);
+// Pre-save: Hash password & generate org slug
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password') && this.password) {
+    const salt = await bcrypt.genSalt(12);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
 
   // Generate organization slug
-  if (this.organization.name && !this.organization.slug) {
+  if (this.organization && this.organization.name && !this.organization.slug) {
     this.organization.slug = this.organization.name
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
@@ -170,28 +225,61 @@ userSchema.pre('save', async function(next) {
 });
 
 // Method: Compare password
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  if (!this.password) return false;
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
 // Method: Get full name
-userSchema.methods.getFullName = function() {
+userSchema.methods.getFullName = function () {
   return `${this.firstName} ${this.lastName}`;
 };
 
+// Method: Increment failed login attempts
+userSchema.methods.incLoginAttempts = async function () {
+  // Reset if lock has expired
+  if (this.lockUntil && this.lockUntil < Date.now()) {
+    return this.updateOne({
+      $set: { failedLoginAttempts: 1 },
+      $unset: { lockUntil: 1 }
+    });
+  }
+
+  const updates = { $inc: { failedLoginAttempts: 1 } };
+
+  // Lock after 5 failed attempts for 30 minutes
+  if (this.failedLoginAttempts + 1 >= 5) {
+    updates.$set = { lockUntil: Date.now() + 30 * 60 * 1000 };
+  }
+
+  return this.updateOne(updates);
+};
+
+// Method: Reset failed login attempts
+userSchema.methods.resetLoginAttempts = async function () {
+  return this.updateOne({
+    $set: { failedLoginAttempts: 0 },
+    $unset: { lockUntil: 1 }
+  });
+};
+
 // Method: Get public profile
-userSchema.methods.toPublicJSON = function() {
+userSchema.methods.toPublicJSON = function () {
   return {
     id: this._id,
+    aigncId: this.aigncId,
     email: this.email,
     firstName: this.firstName,
     lastName: this.lastName,
     fullName: this.getFullName(),
     avatar: this.avatar,
+    providers: (this.providers || []).map(p => ({ provider: p.provider, email: p.email })),
     organization: this.organization,
     role: this.role,
     subscription: this.subscription,
     settings: this.settings,
+    isVerified: this.isVerified,
+    stripeCustomerId: this.stripeCustomerId,
     createdAt: this.createdAt
   };
 };

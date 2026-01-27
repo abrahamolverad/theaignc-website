@@ -374,15 +374,23 @@
 
         <div class="auth-divider">or continue with</div>
 
-        <div class="social-login">
-          <button class="social-btn">
+        <div class="social-login" style="flex-wrap:wrap;">
+          <a href="/api/auth/google" class="social-btn">
             <i class="fab fa-google"></i>
             <span>Google</span>
-          </button>
-          <button class="social-btn">
+          </a>
+          <a href="/api/auth/microsoft" class="social-btn">
             <i class="fab fa-microsoft"></i>
             <span>Microsoft</span>
-          </button>
+          </a>
+          <a href="/api/auth/github" class="social-btn">
+            <i class="fab fa-github"></i>
+            <span>GitHub</span>
+          </a>
+          <a href="/api/auth/linkedin" class="social-btn">
+            <i class="fab fa-linkedin"></i>
+            <span>LinkedIn</span>
+          </a>
         </div>
 
         <div class="auth-footer">
@@ -436,8 +444,11 @@
           localStorage.setItem('token', data.token);
           localStorage.setItem('user', JSON.stringify(data.user));
 
-          // Redirect to dashboard
-          window.location.href = '/dashboard';
+          if (data.refreshToken) {
+            localStorage.setItem('refreshToken', data.refreshToken);
+          }
+          // Redirect to portal
+          window.location.href = '/portal';
         } else {
           errorMessage.textContent = data.message;
           errorMessage.classList.add('show');

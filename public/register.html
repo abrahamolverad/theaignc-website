@@ -433,6 +433,24 @@
           </button>
         </form>
 
+        <div class="auth-divider" style="display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--color-gray);font-size:0.85rem;">
+          <span style="flex:1;height:1px;background:var(--color-border);"></span>
+          or continue with
+          <span style="flex:1;height:1px;background:var(--color-border);"></span>
+        </div>
+
+        <div class="social-login" style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="/api/auth/google" class="social-btn" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:2px solid var(--color-border);border-radius:var(--radius-md);font-weight:500;transition:var(--transition-base);background:var(--color-bg-secondary);color:var(--color-text-primary);text-decoration:none;">
+            <i class="fab fa-google"></i> Google
+          </a>
+          <a href="/api/auth/github" class="social-btn" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:2px solid var(--color-border);border-radius:var(--radius-md);font-weight:500;transition:var(--transition-base);background:var(--color-bg-secondary);color:var(--color-text-primary);text-decoration:none;">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+          <a href="/api/auth/microsoft" class="social-btn" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:2px solid var(--color-border);border-radius:var(--radius-md);font-weight:500;transition:var(--transition-base);background:var(--color-bg-secondary);color:var(--color-text-primary);text-decoration:none;">
+            <i class="fab fa-microsoft"></i> Microsoft
+          </a>
+        </div>
+
         <div class="auth-footer">
           <p>Already have an account? <a href="/login">Sign in</a></p>
         </div>
@@ -541,9 +559,12 @@
           localStorage.setItem('token', data.token);
           localStorage.setItem('user', JSON.stringify(data.user));
 
+          if (data.refreshToken) {
+            localStorage.setItem('refreshToken', data.refreshToken);
+          }
           // Redirect after short delay
           setTimeout(() => {
-            window.location.href = '/dashboard';
+            window.location.href = '/portal';
           }, 1500);
         } else {
           errorMessage.textContent = data.message;
