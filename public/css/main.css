@@ -92,6 +92,14 @@
   --color-text-secondary: #495057;
   --color-text-muted: #868E96;
 
+  --glass-bg: rgba(0, 0, 0, 0.05);
+  --glass-bg-hover: rgba(0, 0, 0, 0.1);
+  --glass-border: rgba(0, 0, 0, 0.15);
+  --glass-border-hover: rgba(0, 0, 0, 0.3);
+
+  --gradient-dark: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+  --gradient-subtle: linear-gradient(135deg, #F1F3F5 0%, #F8F9FA 100%);
+
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
@@ -106,7 +114,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior handled by Lenis */
 }
 
 body {
@@ -2950,6 +2958,280 @@ a.contact-method-card:hover {
   outline: none;
   border-color: var(--color-accent);
 }
+
+/* ─── LIGHT MODE: Fix all hardcoded white text ─────────────── */
+
+/* Logo */
+[data-theme="light"] .logo-text {
+  color: #000000;
+}
+
+/* Nav links */
+[data-theme="light"] .nav-link {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] .nav-link:hover,
+[data-theme="light"] .nav-link.active {
+  color: #000000;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Theme toggle */
+[data-theme="light"] .theme-toggle {
+  color: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+  color: #000000;
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Nav toggle (hamburger) */
+[data-theme="light"] .nav-toggle span {
+  background: #000000;
+}
+
+/* Buttons */
+[data-theme="light"] .btn-primary {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #000000;
+}
+
+[data-theme="light"] .btn-primary:hover {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .btn-outline {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #000000;
+}
+
+[data-theme="light"] .btn-outline:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .btn-ghost {
+  color: #000000;
+}
+
+[data-theme="light"] .btn-ghost:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Hero section */
+[data-theme="light"] .hero-bg {
+  background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+}
+
+[data-theme="light"] .hero-gradient {
+  background: radial-gradient(ellipse at 30% 20%, rgba(90, 200, 250, 0.12) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(90, 200, 250, 0.08) 0%, transparent 50%);
+}
+
+[data-theme="light"] .hero-grid {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+[data-theme="light"] .hero-title {
+  color: #000000;
+}
+
+[data-theme="light"] .hero-subtitle {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .hero-badge {
+  color: #000000;
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .stat-value {
+  color: #000000;
+}
+
+[data-theme="light"] .stat-label {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* Hero scroll */
+[data-theme="light"] .hero-scroll {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .scroll-indicator {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Hero proof */
+[data-theme="light"] .proof-text {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .proof-industries span {
+  color: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .proof-stat strong {
+  color: #000000;
+}
+
+[data-theme="light"] .proof-stat span {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .hero-proof {
+  border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Hero card */
+[data-theme="light"] .hero-card {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Page hero (inner pages) */
+[data-theme="light"] .page-hero {
+  background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+}
+
+[data-theme="light"] .page-hero h1 {
+  color: #000000;
+}
+
+[data-theme="light"] .page-hero-subtitle {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Breadcrumb */
+[data-theme="light"] .breadcrumb a {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .breadcrumb span {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+/* About card */
+[data-theme="light"] .about-card {
+  background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+  color: #000000;
+  border-color: #E9ECEF;
+}
+
+[data-theme="light"] .expertise-item {
+  background: rgba(0, 0, 0, 0.03);
+  color: #000000;
+}
+
+[data-theme="light"] .exp-text {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .experience-badge {
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+/* CTA section */
+[data-theme="light"] .cta {
+  background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+}
+
+/* Footer */
+[data-theme="light"] .footer {
+  background: #F8F9FA;
+  color: #000000;
+  border-top-color: #E9ECEF;
+}
+
+[data-theme="light"] .footer-brand .logo-text {
+  color: #000000;
+}
+
+[data-theme="light"] .footer-brand p {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .footer-links h4 {
+  color: #000000;
+}
+
+[data-theme="light"] .footer-links a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .footer-links a:hover {
+  color: var(--color-accent);
+}
+
+[data-theme="light"] .footer-contact a,
+[data-theme="light"] .footer-contact span {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .footer-bottom {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .footer-grid {
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .footer-social a {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #000000;
+}
+
+[data-theme="light"] .footer-social a:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+/* WhatsApp float */
+[data-theme="light"] .whatsapp-float {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .whatsapp-float:hover {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Service icon (keep white text on gradient bg) */
+[data-theme="light"] .service-icon i {
+  color: #FFFFFF;
+}
+
+[data-theme="light"] .step-number {
+  color: #FFFFFF;
+}
+
+/* Particle */
+[data-theme="light"] .particle {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* ─── END LIGHT MODE FIXES ─────────────────────────────────── */
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {

@@ -152,6 +152,13 @@
   </script>
 </head>
 <body>
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-circle" aria-hidden="true"></div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
   <!-- Skip to main content for accessibility -->
   <a href="#main" class="skip-link">Skip to main content</a>
 
@@ -205,7 +212,7 @@
             <span class="badge-dot"></span>
             AI Automation Agency
           </div>
-          <h1 class="hero-title animate-slide-up">
+          <h1 class="hero-title animate-slide-up" data-reveal="words">
             Stop Doing Work<br>
             <span class="gradient-text">Computers Should Do</span>
           </h1>
@@ -250,7 +257,7 @@
             </div>
           </div>
         </div>
-        <div class="hero-visual animate-float" aria-hidden="true">
+        <div class="hero-visual" aria-hidden="true" data-parallax="0.08">
           <div class="hero-card">
             <div class="card-glow"></div>
             <div class="dashboard-preview">
@@ -284,11 +291,11 @@
     <!-- Problem/Solution Section -->
     <section class="problem-section">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-reveal="fade-up">
           <span class="section-tag">The Problem</span>
           <h2 class="section-title">Your Team Spends Hours on Tasks That Take Seconds to Automate</h2>
         </div>
-        <div class="problem-grid">
+        <div class="problem-grid" data-stagger="0.1">
           <div class="problem-card">
             <div class="problem-icon"><i class="fas fa-copy" aria-hidden="true"></i></div>
             <h3>Manual Data Entry</h3>
@@ -316,7 +323,7 @@
     <!-- Services Section -->
     <section id="services" class="services">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-reveal="fade-up">
           <span class="section-tag">What We Build</span>
           <h2 class="section-title">Automations That Actually Work</h2>
           <p class="section-subtitle">Not generic templates. Custom solutions designed for your specific workflows.</p>
@@ -384,7 +391,7 @@
     <!-- Process Section -->
     <section class="process">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-reveal="fade-up">
           <span class="section-tag">How It Works</span>
           <h2 class="section-title">From Discovery to Deployment in 4 Steps</h2>
         </div>
@@ -424,7 +431,7 @@
     <!-- Results Section -->
     <section class="results">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-reveal="fade-up">
           <span class="section-tag">Real Results</span>
           <h2 class="section-title">What Our Clients Have Achieved</h2>
         </div>
@@ -518,7 +525,7 @@
     <!-- Pricing Preview -->
     <section id="pricing-preview" class="pricing-preview">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-reveal="fade-up">
           <span class="section-tag">Pricing</span>
           <h2 class="section-title">Transparent Pricing. No Surprises.</h2>
           <p class="section-subtitle">Choose a plan or start with a single project. No long-term contracts required.</p>
@@ -589,7 +596,7 @@
     <!-- FAQ Section -->
     <section class="faq">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-reveal="fade-up">
           <span class="section-tag">FAQ</span>
           <h2 class="section-title">Common Questions</h2>
         </div>
@@ -637,7 +644,7 @@
     <!-- CTA Section -->
     <section class="cta">
       <div class="container">
-        <div class="cta-content" data-aos="zoom-in">
+        <div class="cta-content" data-reveal="scale">
           <h2>Ready to Eliminate Repetitive Work?</h2>
           <p>Book a free 30-minute automation audit. We'll map your processes and show you exactly what can be automated.</p>
           <div class="cta-buttons">
@@ -734,6 +741,7 @@
   </a>
 
   <!-- Scripts -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="/js/theme.js"></script>
   <script src="/js/main.js"></script>
 </body>
