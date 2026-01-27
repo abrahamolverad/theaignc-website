@@ -1,6 +1,7 @@
 /**
  * The AIgnc - Theme Handler
- * Handles light/dark mode switching with localStorage persistence
+ * Dark mode is the default (Avant Media style)
+ * Light mode available via toggle
  */
 
 (function() {
@@ -10,9 +11,9 @@
     const DARK_THEME = 'dark';
     const LIGHT_THEME = 'light';
 
-    // Get saved theme or default to light
+    // Get saved theme or default to dark (Avant Media style)
     function getSavedTheme() {
-        return localStorage.getItem(THEME_KEY) || LIGHT_THEME;
+        return localStorage.getItem(THEME_KEY) || DARK_THEME;
     }
 
     // Save theme preference
@@ -21,9 +22,10 @@
     }
 
     // Apply theme to document
+    // Dark is default (no attribute), Light requires data-theme="light"
     function applyTheme(theme) {
-        if (theme === DARK_THEME) {
-            document.documentElement.setAttribute('data-theme', 'dark');
+        if (theme === LIGHT_THEME) {
+            document.documentElement.setAttribute('data-theme', 'light');
         } else {
             document.documentElement.removeAttribute('data-theme');
         }
@@ -37,6 +39,8 @@
             const moonIcon = btn.querySelector('.fa-moon');
             const sunIcon = btn.querySelector('.fa-sun');
             if (moonIcon && sunIcon) {
+                // In dark mode, show sun (to switch to light)
+                // In light mode, show moon (to switch to dark)
                 if (theme === DARK_THEME) {
                     moonIcon.style.display = 'none';
                     sunIcon.style.display = 'block';
@@ -58,7 +62,6 @@
 
     // Initialize theme on page load
     function initTheme() {
-        // Apply saved theme immediately to prevent flash
         const savedTheme = getSavedTheme();
         applyTheme(savedTheme);
 
@@ -73,8 +76,8 @@
 
     // Apply theme immediately (before DOM ready) to prevent flash
     const savedTheme = getSavedTheme();
-    if (savedTheme === DARK_THEME) {
-        document.documentElement.setAttribute('data-theme', 'dark');
+    if (savedTheme === LIGHT_THEME) {
+        document.documentElement.setAttribute('data-theme', 'light');
     }
 
     // Initialize when DOM is ready

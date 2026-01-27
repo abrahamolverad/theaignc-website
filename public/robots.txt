@@ -1,0 +1,17 @@
+# The AIgnc - AI Automation Agency
+# https://theaignc.com
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://theaignc.com/sitemap.xml
+
+# Disallow admin/API routes
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /login
+Disallow: /register
+
+# Crawl delay for courtesy
+Crawl-delay: 1

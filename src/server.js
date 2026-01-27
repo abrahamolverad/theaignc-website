@@ -77,6 +77,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
+// Auth pages
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/login.html'));
 });
@@ -89,16 +90,66 @@ app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/dashboard.html'));
 });
 
+// Main pages
 app.get('/services', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/services.html'));
+});
+
+app.get('/services/workflow-automation', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/services/workflow-automation.html'));
+});
+
+app.get('/services/ai-integration', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/services/ai-integration.html'));
+});
+
+app.get('/services/process-optimization', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/services/process-optimization.html'));
+});
+
+app.get('/services/dashboards-analytics', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/services/dashboards-analytics.html'));
+});
+
+app.get('/case-studies', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/case-studies.html'));
+});
+
+app.get('/case-studies/:slug', (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/case-studies/${req.params.slug}.html`));
 });
 
 app.get('/about', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/about.html'));
 });
 
+app.get('/pricing', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/pricing.html'));
+});
+
+app.get('/resources', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/resources.html'));
+});
+
+app.get('/resources/:slug', (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/resources/${req.params.slug}.html`));
+});
+
 app.get('/contact', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/contact.html'));
+});
+
+// Legal pages
+app.get('/privacy', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/privacy.html'));
+});
+
+app.get('/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/terms.html'));
+});
+
+app.get('/cookies', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/cookies.html'));
 });
 
 // 404 handler
